@@ -28,6 +28,7 @@ void NormalizeLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype>*>& bottom,
   caffe_sqr<Dtype>(n*d, bottom_data, squared_data);
   for (int i=0; i<n; ++i) {
     Dtype normsqr = caffe_cpu_asum<Dtype>(d, squared_data+i*d);
+    normsqr = MaxEps(normsqr);
     caffe_cpu_scale<Dtype>(d, pow(normsqr, -0.5), bottom_data+i*d, top_data+i*d);
   }
 }
@@ -46,6 +47,7 @@ void NormalizeLayer<Dtype>::Backward_cpu(const vector<Blob<Dtype>*>& top,
     caffe_cpu_scale(d, a, top_data+i*d, bottom_diff+i*d);
     caffe_sub(d, top_diff+i*d, bottom_diff+i*d, bottom_diff+i*d);
     a = caffe_cpu_dot(d, bottom_data+i*d, bottom_data+i*d);
+    a = MaxEps(a);
     caffe_cpu_scale(d, Dtype(pow(a, -0.5)), bottom_diff+i*d, bottom_diff+i*d);
   }
 }

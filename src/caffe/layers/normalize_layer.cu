@@ -21,6 +21,7 @@ void NormalizeLayer<Dtype>::Forward_gpu(const vector<Blob<Dtype>*>& bottom,
   caffe_gpu_powx(n*d, bottom_data, Dtype(2), squared_data);
   for (int i=0; i<n; ++i) {
     caffe_gpu_asum<Dtype>(d, squared_data+i*d, &normsqr);
+    normsqr = MaxEps(normsqr);
     caffe_gpu_scale<Dtype>(d, pow(normsqr, -0.5), bottom_data+i*d, top_data+i*d);
   }
 }
@@ -40,6 +41,7 @@ void NormalizeLayer<Dtype>::Backward_gpu(const vector<Blob<Dtype>*>& top,
     caffe_gpu_scale(d, a, top_data+i*d, bottom_diff+i*d);
     caffe_gpu_sub(d, top_diff+i*d, bottom_diff+i*d, bottom_diff+i*d);
     caffe_gpu_dot(d, bottom_data+i*d, bottom_data+i*d, &a);
+    a = MaxEps(a);
     caffe_gpu_scale(d, Dtype(pow(a, -0.5)), bottom_diff+i*d, bottom_diff+i*d);
   }
 }

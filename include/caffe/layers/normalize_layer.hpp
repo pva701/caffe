@@ -36,6 +36,14 @@ class NormalizeLayer : public Layer<Dtype> {
      const vector<bool>& propagate_down, const vector<Blob<Dtype>*>& bottom);
 
   Blob<Dtype> sum_multiplier_, norm_, squared_;
+
+ private:
+  static const Dtype eps = 1e-10;
+  inline Dtype MaxEps(Dtype value) {
+    //if (abs(value) < eps)
+      //return (value < 0 ? -eps : eps);
+    return value + eps;
+  }
 };
 
 } //namespace caffe

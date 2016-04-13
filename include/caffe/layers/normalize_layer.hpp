@@ -40,9 +40,9 @@ class NormalizeLayer : public Layer<Dtype> {
  private:
   static const Dtype eps = 1e-10;
   inline Dtype MaxEps(Dtype value) {
-    //if (abs(value) < eps)
-      //return (value < 0 ? -eps : eps);
-    return value + eps;
+//    if (abs(value) < eps)
+//     return (value < 0 ? -eps : eps);
+    return value;
   }
 };
 

@@ -1,0 +1,4 @@
+nn_config*
+caffe
+trainset
+testset

@@ -60,8 +60,7 @@ int main(int argc, char** argv) {
   sum_blob.set_height(datum.height());
   sum_blob.set_width(datum.width());
   const int data_size = datum.channels() * datum.height() * datum.width();
-  int size_in_datum = std::max<int>(datum.data().size(),
-                                    datum.float_data_size());
+  int size_in_datum = std::max<int>(datum.data().size(), datum.float_data_size());
   for (int i = 0; i < size_in_datum; ++i) {
     sum_blob.add_data(0.);
   }
@@ -72,10 +71,9 @@ int main(int argc, char** argv) {
     DecodeDatumNative(&datum);
 
     const std::string& data = datum.data();
-    size_in_datum = std::max<int>(datum.data().size(),
-        datum.float_data_size());
-    CHECK_EQ(size_in_datum, data_size) << "Incorrect data field size " <<
-        size_in_datum;
+    size_in_datum = std::max<int>(datum.data().size(), datum.float_data_size());
+    CHECK_EQ(size_in_datum, data_size) << "Incorrect data field size " << size_in_datum;
+
     if (data.size() != 0) {
       CHECK_EQ(data.size(), size_in_datum);
       for (int i = 0; i < size_in_datum; ++i) {

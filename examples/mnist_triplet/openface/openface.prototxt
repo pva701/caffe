@@ -8,16 +8,11 @@ layer {
     phase: TRAIN
   }
   transform_param {
-    mirror: true
-    crop_size: 224
-    mean_value: 104
-    mean_value: 117
-    mean_value: 123
+    scale: 0.00390625
   }
   data_param {
-    source: "examples/imagenet/ilsvrc12_train_lmdb"
-    batch_size: 32
-    backend: LMDB
+    source: "data/train_leveldb"
+    batch_size: 96
   }
 }
 layer {
@@ -29,16 +24,11 @@ layer {
     phase: TEST
   }
   transform_param {
-    mirror: false
-    crop_size: 224
-    mean_value: 104
-    mean_value: 117
-    mean_value: 123
+    scale: 0.00390625
   }
   data_param {
-    source: "examples/imagenet/ilsvrc12_val_lmdb"
-    batch_size: 50
-    backend: LMDB
+    source: "data/test_leveldb"
+    batch_size: 96
   }
 }
 
@@ -1787,9 +1777,6 @@ layer {
   bottom: "inception_4e/pool"
   top: "inception_4e/output"
 }
-
-
-
 
 
 

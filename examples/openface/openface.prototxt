@@ -12,7 +12,7 @@ layer {
   }
   data_param {
     source: "data/train_leveldb"
-    batch_size: 300
+    batch_size: 192
   }
 }
 layer {
@@ -28,7 +28,7 @@ layer {
   }
   data_param {
     source: "data/test_leveldb"
-    batch_size: 300
+    batch_size: 192
   }
 }
 
@@ -754,7 +754,8 @@ layer {
     pool: MAX
     kernel_size: 3
     stride: 2
-    pad: 1
+    pad: 0
+#here fixed
   }
 }
 
@@ -766,8 +767,6 @@ layer {
   bottom: "inception_3c/pool"
   top: "inception_3c/output"
 }
-
-
 
 
 
@@ -1766,7 +1765,8 @@ layer {
     pool: MAX
     kernel_size: 3
     stride: 2
-    pad: 1
+    pad: 0
+#here fixed2
   }
 }
 layer {
@@ -2213,7 +2213,7 @@ layer {
   top: "pool5/average"
   pooling_param {
     pool: AVE
-    kernel_size: 7
+    kernel_size: 3
     stride: 1
   }
 }

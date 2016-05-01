@@ -89,7 +89,6 @@ int main(int argc, char **argv) {
                                     "The ImageNet dataset for the training demo is at\n"
                                     "    http://www.image-net.org/download-images\n");
     gflags::ParseCommandLineFlags(&argc, &argv, true);
-
     if (argc < 4) {
         gflags::ShowUsageWithFlagsRestrict(argv[0], "tools/convert_imageset");
         return 1;
@@ -107,8 +106,7 @@ int main(int argc, char **argv) {
         if (label > num_classes)
             num_classes = label;
     }
-
-    LOG(INFO) << "A total of " << lines.size() << " images.";
+    printf("A total of %d images\n", lines.size());
 
     // Create new DB
     scoped_ptr<db::DB> db(db::GetDB(FLAGS_backend));
@@ -125,14 +123,13 @@ int main(int argc, char **argv) {
     vector<Datum*> dataset;
 
     for (int cl = 0; cl < num_classes; ++cl) {
-        if (classedImage[cl].size() == 1)
-            throw std::runtime_error("class size = 1");
         for (int i = 0; i < classedImage[cl].size(); ++i)
             dataset.push_back(&classedImage[cl][i]);
     }
 
     int glob_index = 0;
     for (int cl = 0; cl < num_classes; glob_index += classedImage[cl].size(), ++cl)
+	if (classedImage[cl].size() != 1)
         for (int i = 0; i < classedImage[cl].size(); ++i) {
             int anchor = glob_index + i;
             int positive = rnd(classedImage[cl].size());//relative index

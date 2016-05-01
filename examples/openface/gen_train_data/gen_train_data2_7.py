@@ -12,13 +12,16 @@ from openface.data import iterImgs
 from openface.alignment import NaiveDlib
 import cv2
 
+descr = None
+
 def alignImage(bundle):
-    (args, img_object, aligner) = bundle
+    (args, img_object, aligner, class_num) = bundle
+    global descr
 
     out_dir = os.path.join(args.output, img_object.cls)
     dest_file = os.path.join(out_dir, img_object.name)
     if os.path.exists(dest_file):
-        return
+        return True
 
     rgb = img_object.getRGB(cache=False)
     #rgb = cv2.cvtColor(rgb, cv2.COLOR_GRAY2RGB)
@@ -27,9 +30,11 @@ def alignImage(bundle):
     if not os.path.exists(out_dir):
         os.mkdir(out_dir)
 
-
     if aligned_image is not None:
         io.imsave(dest_file, aligned_image)
+	return True
+    return False
+	#descr.write(os.path.join(imgObject.cls, imgObject.name) + " " + str(class_num) + "\n")
 
 
 def detectAlignImages(args):
@@ -42,18 +47,21 @@ def detectAlignImages(args):
     bundles = []
     current_class = None
     class_num = -1
-    with open(os.path.join(args.output, 'description.txt'), 'w') as descr:
-        for imgObject in imgs:
-            if imgObject.cls != current_class:
-                class_num += 1
-                current_class = imgObject.cls
-            descr.write(os.path.join(imgObject.cls, imgObject.name) + " " + str(class_num) + "\n")
-            bundles.append((args, imgObject, aligner))
-    print("Description is generated")
-    pool.map(alignImage, bundles)
+    for imgObject in imgs:
+        if imgObject.cls != current_class:
+	    class_num += 1
+	    current_class = imgObject.cls
+        #descr.write(os.path.join(imgObject.cls, imgObject.name) + " " + str(class_num) + "\n")
+        bundles.append((args, imgObject, aligner, class_num))
+    #print("Description is generated")
+    exists = pool.map(alignImage, bundles)
 
     pool.close()
     pool.join()
+    with open(os.path.join(args.output, 'description.txt'), 'w') as descr:
+        for (exist, obj) in zip(exists, bundles):
+            if exist:
+                descr.write(os.path.join(obj[1].cls, obj[1].name) + " " + str(obj[3]) + "\n")
 
 
 def main(args):

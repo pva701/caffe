@@ -1,9 +1,9 @@
 net: "openface.prototxt"
 test_iter: 10
-test_interval: 4000
+test_interval: 1000
 test_initialization: false
-display: 40
-average_loss: 40
+display: 50
+average_loss: 50
 base_lr: 0.01
 lr_policy: "poly"
 power: 0.5

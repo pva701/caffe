@@ -64,8 +64,6 @@ char* scale_image(char* image, int scale, uint32_t& rows, uint32_t& cols) {
         ret[i] = image[(r / scale) * cols + (c / scale)];
     }
     delete[] image;
-    rows = new_rows;
-    cols = new_cols;
     return ret;
 }
 
@@ -124,6 +122,8 @@ void convert_dataset(
         read_image(&image_file, &label_file, i, rows, cols, images[i], &labels[i]);
         images[i] = scale_image(images[i], scale, rows, cols);
     }
+    rows *= scale;
+    cols *= scale;
 
     // Open leveldb
     leveldb::DB* db;

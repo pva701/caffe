@@ -17,14 +17,14 @@ if [ ! -d "$DATA_ROOT" ]; then
 fi
 
 rm -rf $OPENFACE_DATA/train_leveldb
-rm -rf $OPENFACE_DATA/val_leveldb
+rm -rf $OPENFACE_DATA/test_leveldb
 
 echo "Creating train leveldb..."
 
 $TOOLS/gen_dataset_from_images --backend=leveldb $DATA_ROOT/ $DATA_ROOT/train.txt $OPENFACE_DATA/train_leveldb
 
-echo "Creating val leveldb..."
+echo "Creating test leveldb..."
 
-$TOOLS/gen_dataset_from_images --backend=leveldb $DATA_ROOT/ $DATA_ROOT/val.txt $OPENFACE_DATA/val_leveldb
+$TOOLS/gen_dataset_from_images --backend=leveldb $DATA_ROOT/ $DATA_ROOT/val.txt $OPENFACE_DATA/test_leveldb
     
 echo "Done."

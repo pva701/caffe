@@ -51,7 +51,7 @@ void putToDb(leveldb::DB* db, int& key, int rows, int cols, char *pixels, int la
     db->Put(leveldb::WriteOptions(), std::string(tmp), value);
 }
 
-char* scale_image(char* image, int scale, uint32_t& rows, uint32_t& cols) {
+char* scale_image(char* image, int scale, uint32_t rows, uint32_t cols) {
     if (scale == 1)
         return image;
     int tot = rows * cols * scale * scale;

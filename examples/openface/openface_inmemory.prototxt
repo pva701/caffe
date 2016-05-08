@@ -1,7 +1,7 @@
 name: "OpenFace"
 layer {
   name: "data"
-  type: "Data"
+  type: "MEMORY_DATA"
   top: "data"
   top: "label"
   include {
@@ -10,9 +10,11 @@ layer {
   transform_param {
     scale: 0.00390625
   }
-  data_param {
-    source: "data/train_leveldb"
-    batch_size: 192
+  memory_data_param {
+     batch_size: 192
+     channels: 3
+     height: 96
+     width: 96
   }
 }
 layer {
@@ -1765,7 +1767,7 @@ layer {
     pool: MAX
     kernel_size: 3
     stride: 2
-    pad: 0
+    pad: 1
 #here fixed2
   }
 }

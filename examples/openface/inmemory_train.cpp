@@ -139,14 +139,14 @@ caffe::SolverAction::Enum GetRequestedAction(
     LOG(FATAL) << "Invalid signal effect \"" << flag_value << "\" was specified";
 }
 
-using Solver::Callback;
+//using Solver::Callback;
 
-struct InMemoryCallback: Callback {
+/*struct InMemoryCallback: Callback {
     InMemoryCallback() {
 
     }
 
-};
+};*/
 
 // Train / Finetune a model.
 int train() {
@@ -193,7 +193,7 @@ int train() {
             GetRequestedAction(FLAGS_sighup_effect));
 
     shared_ptr<caffe::Solver<float> > solver(caffe::SolverRegistry<float>::CreateSolver(solver_param));
-    solver->add_callback(new InMemoryCallback());
+    //solver->add_callback(new InMemoryCallback());
 
     solver->SetActionFunction(signal_handler.GetActionFunction());
 
